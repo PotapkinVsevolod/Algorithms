@@ -1,6 +1,8 @@
 import pytest
 from hash_maps import HashMap
 
+TEST_KEYS_FOR_OVERFLOW = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q']
+
 def test_constants():
     assert HashMap.MAX_LOAD_FACTOR == 0.75
     assert HashMap.INITIAL_ALLOCATED_SIZE == 16
@@ -33,7 +35,6 @@ def test_add_two_keys_with_same_hash():
     hash_map['corge'] = 'bar'
     assert len(hash_map) == 2
     assert hash_map['quuz'] == 'foo'
-    print(hash_map)
     assert hash_map['corge'] == 'bar'
 
 def test_get_nonpresent_key():
@@ -46,9 +47,9 @@ def test_hash_function_return_the_same_hash():
     assert hash_map._get_hash("foo") == hash_map._get_hash("foo")
 
 
-def test_list_for_exist_of_11_unique_hashes():
+def test_list_for_exist_of_12_unique_hashes():
     hash_map = HashMap()
-    keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q']
+    keys = TEST_KEYS_FOR_OVERFLOW
     hashes = set()
     for key in keys:
         hashes.add(hash_map._get_hash(key))
@@ -56,16 +57,12 @@ def test_list_for_exist_of_11_unique_hashes():
 
 def test_overflow():
     hash_map = HashMap()
-    keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q']
     count = 0
-    for key in keys:
+    for key in TEST_KEYS_FOR_OVERFLOW:
         hash_map[key] = count
         count += 1
-    assert hash_map.allocated_slots == 32
-    count = 0
-    for key in keys:
-        assert hash_map[key] == count
-        count += 1
+    assert hash_map.allocated_slots == hash_map.INITIAL_ALLOCATED_SIZE * hash_map.EXTENSION_DEGREE
+    assert len(hash_map) == len(TEST_KEYS_FOR_OVERFLOW)
 
 def test_integer_key():
     hash_map = HashMap()
