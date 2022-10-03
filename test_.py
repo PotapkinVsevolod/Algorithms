@@ -2,7 +2,7 @@ import pytest
 from hash_maps import HashMap
 
 def test_constants():
-    assert HashMap.MAX_LOAD_FACTOR == 2 / 3
+    assert HashMap.MAX_LOAD_FACTOR == 0.75
     assert HashMap.INITIAL_ALLOCATED_SIZE == 16
     assert HashMap.EXTENSION_DEGREE == 2
 
@@ -28,10 +28,12 @@ def test_change_value():
 
 def test_add_two_keys_with_same_hash():
     hash_map = HashMap()
+    assert hash_map._get_hash('quuz') == hash_map._get_hash('corge')
     hash_map['quuz'] = 'foo'
     hash_map['corge'] = 'bar'
     assert len(hash_map) == 2
     assert hash_map['quuz'] == 'foo'
+    print(hash_map)
     assert hash_map['corge'] == 'bar'
 
 def test_get_nonpresent_key():
@@ -41,17 +43,36 @@ def test_get_nonpresent_key():
 
 def test_hash_function_return_the_same_hash():
     hash_map = HashMap()
-    assert hash_map._hash("foo") == hash_map._hash("foo")
+    assert hash_map._get_hash("foo") == hash_map._get_hash("foo")
 
 
-def test_extension():
+def test_list_for_exist_of_11_unique_hashes():
     hash_map = HashMap()
-    keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q']
     hashes = set()
+    for key in keys:
+        hashes.add(hash_map._get_hash(key))
+    assert len(hashes) == HashMap.INITIAL_ALLOCATED_SIZE * HashMap.MAX_LOAD_FACTOR
+
+def test_overflow():
+    hash_map = HashMap()
+    keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q']
     count = 0
     for key in keys:
-        hashes.add(hash_map._hash(key))
         hash_map[key] = count
         count += 1
-    assert len(hashes) > HashMap.INITIAL_ALLOCATED_SIZE * HashMap.MAX_LOAD_FACTOR
-    
+    assert hash_map.allocated_slots == 32
+    count = 0
+    for key in keys:
+        assert hash_map[key] == count
+        count += 1
+
+def test_integer_key():
+    hash_map = HashMap()
+    hash_map[1] = 2
+    assert hash_map[1] == 2
+
+def test_none_key():
+    hash_map = HashMap()
+    hash_map[None] = 2
+    assert hash_map[None] == 2
