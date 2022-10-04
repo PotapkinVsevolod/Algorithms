@@ -40,6 +40,8 @@ class HashMap:
             byte_string = bin(256).encode("UTF-8")
         elif isinstance(key, str):
             byte_string = key.encode("UTF-8")
+        else:
+            raise KeyError("Unhashable type of key.")
         return (
             int(
                 hashlib.sha256(byte_string).hexdigest(),
