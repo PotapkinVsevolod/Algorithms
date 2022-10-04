@@ -29,6 +29,11 @@ class TestUsingOfDifferentTypesAsKey:
         hash_map[None] = 2
         assert hash_map[None] == 2
 
+    def test_set(self):
+        hash_map = HashMap()
+        hash_map[{1, 2}] = 2
+        assert hash_map[{1, 2}] == 2
+
     def test_dict(self):
         hash_map = HashMap()
         with pytest.raises(KeyError):
@@ -39,6 +44,7 @@ class TestUsingOfDifferentTypesAsKey:
         with pytest.raises(KeyError):
             hash_map[[]] = 2
 
+ 
 
 def test_constants():
     assert HashMap.MAX_LOAD_FACTOR == 0.75
