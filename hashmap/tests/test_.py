@@ -31,8 +31,8 @@ class TestUsingOfDifferentTypesAsKey:
 
     def test_set(self):
         hash_map = HashMap()
-        hash_map[{1, 2}] = 2
-        assert hash_map[{1, 2}] == 2
+        with pytest.raises(KeyError):
+            hash_map[{1, 2}] = 2
 
     def test_dict(self):
         hash_map = HashMap()
