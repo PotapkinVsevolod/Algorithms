@@ -55,7 +55,8 @@ class HashMap:
             return int(hashlib.sha256(key.to_bytes(10, 'little', signed=True)).hexdigest(), 16) % self.allocated_slots
 
         elif isinstance(key, NoneType):
-            ...
+            number = 256
+            return int(hashlib.sha256(number.to_bytes(10, 'little', signed=True)).hexdigest(), 16) % self.allocated_slots
 
     def _restructure_storage(self):
 
