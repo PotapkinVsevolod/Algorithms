@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "hashmap"
+version = "0.1.0"
+description = "Implementation of hashmap."
+authors = ["potapkinvsevolod <potapkinvsevolod@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/PotapkinVsevolod/Algorithms"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pytest = "^7.1.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

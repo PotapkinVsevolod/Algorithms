@@ -1,5 +1,4 @@
-import pytest
-from hash_maps import HashMap
+from hashmap.hash_maps import HashMap
 
 TEST_KEYS_FOR_OVERFLOW = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q']
 
