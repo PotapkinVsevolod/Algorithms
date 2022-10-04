@@ -34,33 +34,19 @@ class HashMap:
             self._restructure_storage()
 
     def _get_hash(self, key):
-
-        if isinstance(key, str):
-            return (
-                int(hashlib.sha256(key.encode("utf-8")).hexdigest(), 16)
-                % self.allocated_slots
-            )
-
-        elif isinstance(key, int):
-            return (
-                int(
-                    hashlib.sha256(key.to_bytes(10, "little", signed=True)).hexdigest(),
-                    16,
-                )
-                % self.allocated_slots
-            )
-
+        if isinstance(key, int):
+            byte_string = bin(key).encode("UTF-8")
         elif isinstance(key, NoneType):
-            number = 256
-            return (
-                int(
-                    hashlib.sha256(
-                        number.to_bytes(10, "little", signed=True)
-                    ).hexdigest(),
-                    16,
-                )
-                % self.allocated_slots
+            byte_string = bin(256).encode("UTF-8")
+        elif isinstance(key, str):
+            byte_string = key.encode("UTF-8")
+        return (
+            int(
+                hashlib.sha256(byte_string).hexdigest(),
+                16,
             )
+            % self.allocated_slots
+        )
 
     def _restructure_storage(self):
         self.allocated_slots *= __class__.EXTENSION_DEGREE
