@@ -33,18 +33,34 @@ class HashMap:
         if self.filled_slots == self.allocated_slots * __class__.MAX_LOAD_FACTOR:
             self._restructure_storage()
 
-
     def _get_hash(self, key):
 
         if isinstance(key, str):
-            return int(hashlib.sha256(key.encode('utf-8')).hexdigest(), 16) % self.allocated_slots
+            return (
+                int(hashlib.sha256(key.encode("utf-8")).hexdigest(), 16)
+                % self.allocated_slots
+            )
 
         elif isinstance(key, int):
-            return int(hashlib.sha256(key.to_bytes(10, 'little', signed=True)).hexdigest(), 16) % self.allocated_slots
+            return (
+                int(
+                    hashlib.sha256(key.to_bytes(10, "little", signed=True)).hexdigest(),
+                    16,
+                )
+                % self.allocated_slots
+            )
 
         elif isinstance(key, NoneType):
             number = 256
-            return int(hashlib.sha256(number.to_bytes(10, 'little', signed=True)).hexdigest(), 16) % self.allocated_slots
+            return (
+                int(
+                    hashlib.sha256(
+                        number.to_bytes(10, "little", signed=True)
+                    ).hexdigest(),
+                    16,
+                )
+                % self.allocated_slots
+            )
 
     def _restructure_storage(self):
         self.allocated_slots *= __class__.EXTENSION_DEGREE
