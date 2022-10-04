@@ -112,3 +112,13 @@ def test_item_is_tuple():
     hash_map["foo"] = "bar"
     item = hash_map.storage[hash_map._get_hash("foo")]
     assert isinstance(item, tuple)
+
+def test_list_as_key():
+    hash_map = HashMap()
+    with pytest.raises(KeyError):
+        hash_map[[]] = 2
+
+def test_dict_as_key():
+    hash_map = HashMap()
+    with pytest.raises(KeyError):
+        hash_map[{"a": 1}] = 2
