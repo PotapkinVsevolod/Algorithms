@@ -74,3 +74,9 @@ def test_none_key():
     hash_map = HashMap()
     hash_map[None] = 2
     assert hash_map[None] == 2
+
+def test_item_is_tuple():
+    hash_map = HashMap()
+    hash_map["foo"] = "bar"
+    item = hash_map.storage[hash_map._get_hash("foo")]
+    assert isinstance(item, tuple)
