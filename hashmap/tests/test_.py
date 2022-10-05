@@ -112,3 +112,8 @@ def test_item_is_tuple():
     hash_map["foo"] = "bar"
     item = hash_map.storage[hash_map._get_hash("foo")]
     assert isinstance(item, tuple)
+
+
+def test_add_init_allocated_size():
+    hash_map = HashMap(1001)
+    assert hash_map.allocated_slots == 1001
