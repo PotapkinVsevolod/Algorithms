@@ -48,7 +48,6 @@ class TestUsingOfDifferentTypesAsKey:
 
 def test_constants():
     assert HashMap.MAX_LOAD_FACTOR == 0.75
-    assert HashMap.INITIAL_ALLOCATED_SIZE == 16
     assert HashMap.EXTENSION_DEGREE == 2
 
 
@@ -57,7 +56,8 @@ def test_init_len():
 
 
 def test_init_value():
-    assert HashMap() == [None for _ in range(HashMap.INITIAL_ALLOCATED_SIZE)]
+    hashmap = HashMap()
+    assert hashmap == [None for _ in range(hashmap.allocated_slots)]
 
 
 def test_add_one_key_value():
@@ -98,11 +98,12 @@ def test_hash_function_return_the_same_hash():
 
 def test_overflow():
     hash_map = HashMap()
+    allocated_slots = hash_map.allocated_slots
     for key in TEST_KEYS_FOR_OVERFLOW:
         hash_map[key] = "foo"
     assert (
         hash_map.allocated_slots
-        == hash_map.INITIAL_ALLOCATED_SIZE * hash_map.EXTENSION_DEGREE
+        == allocated_slots * hash_map.EXTENSION_DEGREE
     )
     assert len(hash_map) == len(TEST_KEYS_FOR_OVERFLOW)
 

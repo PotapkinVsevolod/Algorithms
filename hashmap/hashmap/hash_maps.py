@@ -6,11 +6,10 @@ from itertools import chain
 class HashMap:
 
     MAX_LOAD_FACTOR = 0.75
-    INITIAL_ALLOCATED_SIZE = 16
     EXTENSION_DEGREE = 2
 
-    def __init__(self):
-        self.allocated_slots = __class__.INITIAL_ALLOCATED_SIZE
+    def __init__(self, allocated_slots=16):
+        self.allocated_slots = allocated_slots
         self.filled_slots = 0
         self.storage = [None for _ in range(self.allocated_slots)]
 
