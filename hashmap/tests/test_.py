@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 import pytest
 
 from hashmap.hash_maps import HashMap
@@ -116,3 +118,60 @@ def test_item_is_tuple():
     hash_map["foo"] = "bar"
     item = hash_map.storage[hash_map._get_hash("foo")]
     assert isinstance(item, tuple)
+
+def test_performance():
+    hashmap = HashMap(150000)
+    
+    assert hashmap.filled_slots == 0
+    time_before = datetime.now()
+    hashmap[0] = [0]
+    first_set_time = (datetime.now() - time_before).microseconds
+
+    for _ in range(1, 9):
+        hashmap[_] = _
+    
+    assert hashmap.filled_slots == 9
+    time_before = datetime.now()
+    hashmap[10] = [10]
+    tenth_set_time = (datetime.now() - time_before).microseconds
+
+    for _ in range(11, 100):
+        hashmap[_] = _
+
+    assert hashmap.filled_slots == 99
+    time_before = datetime.now()
+    hashmap[100] = [100]
+    hundredth_set_time = (datetime.now() - time_before).microseconds
+
+    for _ in range(101, 1000):
+        hashmap[_] = _
+
+    assert hashmap.filled_slots == 999
+    time_before = datetime.now()
+    hashmap[1000] = [1000]
+    thousandth_set_time = (datetime.now() - time_before).microseconds
+
+    for _ in range(1001, 10000):
+        hashmap[_] = _
+
+    assert hashmap.filled_slots == 9999
+    time_before = datetime.now()
+    hashmap[10000] = [10000]
+    ten_thousandth_set_time = (datetime.now() - time_before).microseconds
+
+    for _ in range(10001, 100000):
+        hashmap[_] = _
+
+    assert hashmap.filled_slots == 99999
+    time_before = datetime.now()
+    hashmap[100000] = [100000]
+    hundred_thousandth_set_time = (datetime.now() - time_before).microseconds
+
+    print(f'1 - {first_set_time} microseconds')
+    print(f'10 - {tenth_set_time} microseconds')
+    print(f'100 - {hundredth_set_time} microseconds')
+    print(f'1000 - {thousandth_set_time} microseconds')
+    print(f'10000 - {ten_thousandth_set_time} microseconds')
+    print(f'100000 - {hundred_thousandth_set_time} microseconds')
+
+    assert False
