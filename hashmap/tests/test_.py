@@ -44,20 +44,26 @@ class TestUsingOfDifferentTypesAsKey:
         with pytest.raises(KeyError):
             hash_map[[]] = 2
 
- 
 
-def test_constants():
-    assert HashMap.MAX_LOAD_FACTOR == 0.75
-    assert HashMap.EXTENSION_DEGREE == 2
+class TestInitializationParameters:
+    def test_add_init_allocated_size(self):
+        hash_map = HashMap(1001)
+        assert hash_map.allocated_slots == 1001
 
+    def test_add_str_as_init_allocated_size(self):
+        with pytest.raises(TypeError):
+            hashmap = HashMap("asda")
 
-def test_init_len():
-    assert len(HashMap()) == 0
+    def test_constants(self):
+        assert HashMap.MAX_LOAD_FACTOR == 0.75
+        assert HashMap.EXTENSION_DEGREE == 2
 
+    def test_init_len(self):
+        assert len(HashMap()) == 0
 
-def test_init_value():
-    hashmap = HashMap()
-    assert hashmap == [None for _ in range(hashmap.allocated_slots)]
+    def test_init_value(self):
+        hashmap = HashMap()
+        assert hashmap == [None for _ in range(hashmap.allocated_slots)]
 
 
 def test_add_one_key_value():
@@ -101,10 +107,7 @@ def test_overflow():
     allocated_slots = hash_map.allocated_slots
     for key in TEST_KEYS_FOR_OVERFLOW:
         hash_map[key] = "foo"
-    assert (
-        hash_map.allocated_slots
-        == allocated_slots * hash_map.EXTENSION_DEGREE
-    )
+    assert hash_map.allocated_slots == allocated_slots * hash_map.EXTENSION_DEGREE
     assert len(hash_map) == len(TEST_KEYS_FOR_OVERFLOW)
 
 
@@ -113,12 +116,3 @@ def test_item_is_tuple():
     hash_map["foo"] = "bar"
     item = hash_map.storage[hash_map._get_hash("foo")]
     assert isinstance(item, tuple)
-
-
-def test_add_init_allocated_size():
-    hash_map = HashMap(1001)
-    assert hash_map.allocated_slots == 1001
-
-def test_add_str_as_init_allocated_size():
-    with pytest.raises(TypeError):
-        hashmap = HashMap("asda")
