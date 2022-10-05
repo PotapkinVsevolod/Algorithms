@@ -119,9 +119,10 @@ def test_item_is_tuple():
     item = hash_map.storage[hash_map._get_hash("foo")]
     assert isinstance(item, tuple)
 
+
 def test_performance():
     hashmap = HashMap(150000)
-    
+
     assert hashmap.filled_slots == 0
     time_before = datetime.now()
     hashmap[0] = [0]
@@ -129,7 +130,7 @@ def test_performance():
 
     for _ in range(1, 9):
         hashmap[_] = _
-    
+
     assert hashmap.filled_slots == 9
     time_before = datetime.now()
     hashmap[10] = [10]
@@ -167,11 +168,11 @@ def test_performance():
     hashmap[100000] = [100000]
     hundred_thousandth_set_time = (datetime.now() - time_before).microseconds
 
-    print(f'1 - {first_set_time} microseconds')
-    print(f'10 - {tenth_set_time} microseconds')
-    print(f'100 - {hundredth_set_time} microseconds')
-    print(f'1000 - {thousandth_set_time} microseconds')
-    print(f'10000 - {ten_thousandth_set_time} microseconds')
-    print(f'100000 - {hundred_thousandth_set_time} microseconds')
+    print(f"1 - {first_set_time} microseconds")
+    print(f"10 - {tenth_set_time} microseconds")
+    print(f"100 - {hundredth_set_time} microseconds")
+    print(f"1000 - {thousandth_set_time} microseconds")
+    print(f"10000 - {ten_thousandth_set_time} microseconds")
+    print(f"100000 - {hundred_thousandth_set_time} microseconds")
 
     assert False
