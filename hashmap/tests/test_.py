@@ -118,3 +118,7 @@ def test_item_is_tuple():
 def test_add_init_allocated_size():
     hash_map = HashMap(1001)
     assert hash_map.allocated_slots == 1001
+
+def test_add_str_as_init_allocated_size():
+    with pytest.raises(TypeError):
+        hashmap = HashMap("asda")
