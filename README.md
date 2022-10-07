@@ -1,2 +1,2 @@
 # Algorithms
-Implementaion of algoritms and data structures on Python
+Implementation of algoritms and data structures on Python
